@@ -8,104 +8,87 @@
   <script src="/webjars/jquery/jquery.min.js"></script>
   <script src="/webjars/sockjs-client/sockjs.min.js"></script>
   <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="/app.js"></script>
 </head>
 
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies
-  on Javascript being
-  enabled. Please enable
-  Javascript and reload this page!</h2></noscript>
+<noscript>
+  <h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies
+    on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2>
+</noscript>
 
 <section id="front">
-
-  <b>Select client:</b>
-
-  <div class="dropdown">
-    <button onclick="selectClient()" class="dropbtn">Client</button>
-    <div id="selectClient" class="dropdown-content">
-      <a href="#">Client1</a>
-      <a href="#">Client2</a>
-      <a href="#">Client3</a>
-    </div>
+  <form>
+  <div class="wrapper">
+    <span class="title">Select client:</span>
+      <select name="clientID" id="clientID">
+          <option value="Client1">Client1</option>
+          <option value="Client2">Client2</option>
+          <option value="Client3">Client3</option>
+      </select>
   </div>
   <p></p>
-
-  <form action="/action_page.php">
-    <label for="fname"> <b>Amount:</b> </label>
-    <input type="number" value="0.00" min="0" step="0.01" id="fname" name="fname" width="5"><br><br>
+  <div class="wrapper">
+    <label for="amount" class="title">
+      Amount:
+    </label>
+    <input type="number" value="0.00" min="0" step="0.01" id="amount" name="amount">
+  </div>
+  <p></p>
+  <div class="wrapper">
+    <span class="title">Amount currency:</span>
+      <select name="dealtCurrency" id="dealtCurrency">
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="PLN">PLN</option>
+        <option value="USD">USD</option>
+        <option value="JPY">JPY</option>
+      </select>
+  </div>
+  <p></p>
+  <div class="wrapper">
+    <span class="title">Select currency pair:</span>
+        <select name="pair" id="pair">
+          <option value="EURGBP">EUR/GBP</option>
+          <option value="EURPLN">EUR/PLN</option>
+          <option value="EURUSD">EUR/USD</option>
+          <option value="JPYPLN">JPY/PLN</option>
+        </select>
+    </div>
+  <p></p>
+  <div class="wrapper">
+    <span class="title">BUY or SELL:</span>
+      <select name="buySell" id="buySell">
+        <option value="Buy">Buy</option>
+        <option value="Sell">Sell</option>
+      </select>
+  </div>
+  <p></p>
+  <button class="button ref" id="connect" type="submit">Refresh</button>
   </form>
-  <p></p>
-  <b>Amount currency:</b>
-
-  <div class="dropdown">
-    <button onclick="amountCurrency()" class="dropbtn">Currency</button>
-    <div id="amountCurrency" class="dropdown-content">
-      <a href="#">EUR</a>
-      <a href="#">GBP</a>
-      <a href="#">PLN</a>
-      <a href="#">USD</a>
-      <a href="#">JPY</a>
-    </div>
-  </div>
-  <p></p>
-  <b>Select currency pair:</b>
-
-  <div class="dropdown">
-    <button onclick="currencyPair()" class="dropbtn">Currency Pair</button>
-    <div id="currencyPair" class="dropdown-content">
-      <a href="#">EUR/GBP</a>
-      <a href="#">EUR/PLN</a>
-      <a href="#">EUR/USD</a>
-      <a href="#">JPY/PLN</a>
-
-    </div>
-  </div>
-  <p></p>
-  <b>BUY or SELL:</b>
-
-  <div class="dropdown">
-    <button onclick="buySell()" class="dropbtn">Buy/Sell</button>
-    <div id="buySell" class="dropdown-content">
-      <a href="#">Buy</a>
-      <a href="#">Sell</a>
-    </div>
-  </div>
-  <p></p>
-
-  <button class="button" id="connect" type="submit">Refresh</button>
-</section>
-
-<script>
-  function buySell() {
-    document.getElementById("buySell").classList.toggle("show");
-  }
-
-  function currencyPair() {
-    document.getElementById("currencyPair").classList.toggle("show");
-  }
-
-  function amountCurrency() {
-    document.getElementById("amountCurrency").classList.toggle("show");
-  }
-
-  function selectClient() {
-    document.getElementById("selectClient").classList.toggle("show");
-  }
-
-  // Close the dropdown if the user clicks outside of it
-  window.onclick = function (event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
+  <script>
+    let contractData = [];
+    const addContract = (ev)=>{
+      ev.preventDefault();
+      let contract = {
+        RequestID: Date.now(),
+        Amount: document.getElementById('amount').value,
+        ClientID: document.getElementById('clientID').value,
+        DealtCurrency: document.getElementById('dealtCurrency').value,
+        Pair: document.getElementById('pair').value,
+        BuySell: document.getElementById('buySell').value,
       }
+      contractData.push(contract);
+      document.forms[0].reset();
+      localStorage.setItem('contractData', JSON.stringify(contractData));
     }
-  }
-</script>
+    document.addEventListener('DOMContentLoaded', ()=> {
+      document.getElementById('connect').addEventListener('click', addContract);
+    });
+  </script>
+</section>
 </body>
 </html>

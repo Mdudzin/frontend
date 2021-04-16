@@ -1,19 +1,26 @@
 body {
     background-color: #f4efea;
 }
+#front {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+    font-size: 20px;
+    height: auto;
+}
 
 .button {
     background-color: #af754c;
-    border: none;
     border-radius: 10px;
     color: white;
     padding: 15px 32px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    display: flex;
     font-size: 16px;
     margin: auto;
     cursor: pointer;
+
 }
 
 .dropbtn {
@@ -24,6 +31,7 @@ body {
     font-size: 16px;
     border: none;
     cursor: pointer;
+    width: 135px;
 }
 
 .dropbtn:hover, .dropbtn:focus {
@@ -56,8 +64,33 @@ body {
 
 .show {display: block;}
 
-#front {
-    max-width: 500px;
-    margin: auto;
-    font-size: 20px;
+.title {
+    font-weight: bold;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ref {
+    display: block;
+    border: none;
+    margin: 0;
+}
+
+select {
+    background-color: #345edb;
+    border-radius: 10px;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 135px;
+}
+
+input {
+    display: flex;
+    width: auto;
 }

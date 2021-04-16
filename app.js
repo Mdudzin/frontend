@@ -12,14 +12,14 @@ function setConnected(connected) {
 }
 
 function connect() {
-    disconnect();
+    disconnect()
+
     var socket = new SockJS('/websocket-example');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/user', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
         });
     });
 }
